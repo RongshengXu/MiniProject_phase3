@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/common-style.css" />
+    <script></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <p class="navbar-brand">Connex.us</p>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li class="active"><a href="create">Create</a></li>
+                    <li><a href="view">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                    <li><a href={{url}}>{{url_linktext}}</a><li></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">Create a Stream</div>
+            <div class="panel-body">
+                <form action="/sign" method="post">
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" name="streamname" placeholder = "Big news"/>
+                        <b>Name Your Stream</b>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <textarea class="form-control" name="streamtags" placeholder = "#UTexas, #Too young too simple, #Naive"></textarea>
+                        <b>Tag Your Stream (comma separated)</b>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <textarea class="form-control" name="subscribers" placeholder = "Input subscribers' emails"></textarea>
+                        <div class="gap_small"></div>
+                        <textarea class="form-control" name="context" rows="3" cols="60" placeholder="Option message for invite" ></textarea>
+                        <b>Add Subscribers</b>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" name="url" placeholder = "cover page URL"/>
+                        <b>URL to Cover Image (optional)</b>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="submit" class="btn btn-primary" value="Create Stream"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endautoescape %}

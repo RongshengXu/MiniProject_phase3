@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/common-style.css" />
+    <script></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <p class="navbar-brand">Connex.us</p>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="create">Create</a></li>
+                    <li><a href="view">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li class="active"><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                    <li><a href={{url}}>{{url_linktext}}</a><li></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">Top 3 Trending Streams--{{freq}}</div>
+                <div class="panel-body">
+                    {% for info in infos %}
+                        <div style = "position:relative;">
+                            <a href="{{info[2]}}">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <img src="{{info[1]}}" class="img-responsive img-rounded displayed"/>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <div style="text-align: center" class="list-group-item-heading">
+                                                <b>{{info[0]}}</b>
+                                            </div>
+                                            <div style="text-align: center; color: black">
+                                                <small>{{info[3]}} views in past hour</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div>Manage Report</div>
+                </div>
+                <div class="panel-body">
+                    <form class="radio" action="/update" method="post">
+                        <div class="radio">
+                            <input type="radio" name="frequency" value="No reports" checked>No reports</input><br>
+                            <input type="radio" name="frequency" value="Every 5 minutes">Every 5 minutes</input><br>
+                            <input type="radio" name="frequency" value="Every 1 hour">Every 1 hour</input><br>
+                            <input type="radio" name="frequency" value="Every day">Every day</input><br>
+                            <div class="gap_small"></div>
+                            <div class="text-right">
+                                <input type="submit" class="btn btn-info" value="Update rate">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endautoescape %}

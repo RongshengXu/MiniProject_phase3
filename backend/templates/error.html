@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/common-style.css" />
+    <script></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <p class="navbar-brand">Connex.us</p>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="create">Create</a></li>
+                    <li><a href="view">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                    <li><a href={{url}}>{{url_linktext}}</a><li></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <hr size="5" />
+    <table>
+        <tr>
+            <td><img src="http://nerdsngeeks.net/wp-content/uploads/2014/01/error.png"></td>
+            <td>
+                <p style="color:red"><big>Error: you tried to create a new stream whose name is the same as an existing stream;
+                operation did not complete.</big></p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+{% endautoescape %}

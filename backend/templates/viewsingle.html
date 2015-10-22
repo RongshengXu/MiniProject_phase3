@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/common-style.css" />
+    <link href="/assets/css/lightbox.css" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <!-- Generic page styles -->
+    <!--<link rel="stylesheet" href="/assets/css/style.css">-->
+    <!-- jQuery UI styles -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/dark-hive/jquery-ui.css" id="theme">
+    <!-- blueimp Gallery styles -->
+    <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="/assets/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fileupload-ui.css">
+    <link href="/assets/css/lightbox.css" rel="stylesheet">
+    <!-- CSS adjustments for browsers with JavaScript disabled -->
+    <noscript><link rel="stylesheet" href="/assets/css/jquery.fileupload-noscript.css"></noscript>
+    <noscript><link rel="stylesheet" href="/assets/css/jquery.fileupload-ui-noscript.css"></noscript>
+    <script>
+        lightbox.option({
+          'maxWidth': 200,
+          'maxHeight':300
+          'resizeDuration': 200,
+          'wrapAround': true
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <p class="navbar-brand">Connex.us</p>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="create">Create</a></li>
+                    <li class="active"><a href="view">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                    <!--<li><a href={{url}}>{{url_linktext}}</a><li></li>-->
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!--
+    <hr size="5" />
+    <h3>View A Single stream</h3>
+    -->
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div>
+                    <strong>{{stream_name}}</strong>
+                </div>
+                <div style="text-align: right">
+                    <small>
+                        The total number of picture is {{stream.totalPicture}}:
+                        {% for picture in picture_info %}
+                                {{picture[1]}}
+                        {% endfor %}
+                          showed below
+                    </small>
+                </div>
+            </div>
+            <script src="/assets/js/lightbox.js"></script>
+            <div class="panel-body">
+                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                    <!--<a href="{{GeoViewURL}}"> Geo View </a>-->
+                    <form action={{GeoViewURL}} method="get">
+                        <input type="submit" class="btn btn-info" value="Geo View">
+                    </form>
+                </div>
+                <div class="gap_middle"></div>
+                {% for picture in picture_info %}
+                    {% if picture[0]< picture_per_stream %}
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <!--<div class="thumbnail clickable">-->
+                                <!--<img src="/view_picture/{{picture[2]}}" class="img-responsive img-rounded single_pic"/>-->
+                            <a href="/getimage?pic_id={{picture[2]}}" data-lightbox="image-1">
+                                <img src="pic?pic_id={{picture[2]}}" class="img-responsive img-rounded single_pic"/>
+                            </a>
+                            <!--</div>-->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="col-md-12 col-sm-12 col-xs-12 gap_small"></div>
+                <!--view more pictures-->
+                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                    <form action={{more_pictureURL}} method="post">
+                        <input type="submit" class="button button-pill" value="More Pictures">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if stream.author == user %}
+            <div class="panel panel-default">
+                <div class="panel-heading">Upload pictures to <strong>{{stream.name}}</strong></div>
+                <div class="panel-body">
+                    <form id="fileupload" action="upload" method="post" enctype="multipart/form-data">
+                    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                    <div class="row fileupload-buttonbar">
+                        <div class="col-lg-7">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+                            <span class="btn btn-success fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Add files...</span>
+                                <input type="file" name="files[]" multiple>
+                            </span>
+                            <button type="submit" class="btn btn-primary start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Start upload</span>
+                            </button>
+                            <button type="reset" class="btn btn-warning cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>Cancel upload</span>
+                            </button>
+                            <!-- The global file processing state -->
+                            <span class="fileupload-process"></span>
+                        </div>
+                        <!-- The global progress state -->
+                        <div class="col-lg-5 fileupload-progress fade">
+                            <!-- The global progress bar -->
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                            </div>
+                            <!-- The extended global progress state -->
+                            <div class="progress-extended">&nbsp;</div>
+                        </div>
+                    </div>
+                    <!-- The table listing the files available for upload/download -->
+                    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+                    </form>
+                    <!--<form action="{{upload_url}}" method="post" enctype="multipart/form-data">-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-lg-7">-->
+                                <!--<input id="fileupload" type="file" class="btn btn-success" name="file[]" multiple>-->
+                                <!--<input type="submit" class="btn btn-primary" name="submit" value="Submit">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-default">
+                <div class="panel-heading">Subscribe to <strong>{{stream.name}}</strong></div>
+                <div class="panel-body">
+                    {% if user.nickname() in stream.subscribers%}
+                        <form action="{{url}}" method="post">
+                            <input type="submit" class="btn btn-warning" value="Unsubscribe">
+                        </form>
+                    {% else %}
+                        <form action={{url}} method="post">
+                            <input type="submit" class="btn btn-info" value="Subscribe">
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <!-- The template to display files available for upload -->
+
+{% raw %}
+    <script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error text-danger"></strong>
+        </td>
+        <td>
+            <p class="size">Processing...</p>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+        </td>
+        <td>
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start" disabled>
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start</span>
+                </button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+{% endraw %}
+</script>
+
+    <!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% raw %}
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        <td>
+            <span class="preview">
+                {% if (file.thumbnailUrl) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                {% } %}
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                {% if (file.url) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                {% } else { %}
+                    <span>{%=file.name%}</span>
+                {% } %}
+            </p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
+            {% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+{% endraw %}
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="/assets/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!-- blueimp Gallery script -->
+<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/assets/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/assets/js/jquery.fileupload.js"></script>
+<!-- The File Upload processing plugin -->
+<script src="/assets/js/jquery.fileupload-process.js"></script>
+<!-- The File Upload image preview & resize plugin -->
+<script src="/assets/js/jquery.fileupload-image.js"></script>
+<!-- The File Upload audio preview plugin -->
+<script src="/assets/js/jquery.fileupload-audio.js"></script>
+<!-- The File Upload video preview plugin -->
+<script src="/assets/js/jquery.fileupload-video.js"></script>
+<!-- The File Upload validation plugin -->
+<script src="/assets/js/jquery.fileupload-validate.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="/assets/js/jquery.fileupload-ui.js"></script>
+<!-- The main application script -->
+<script src="/assets/js/main.js"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+<!--[if (gte IE 8)&(lt IE 10)]>
+<script src="/assets/js/cors/jquery.xdr-transport.js"></script>
+<![endif]-->
+</body>
+</html>

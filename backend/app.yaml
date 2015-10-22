@@ -1,0 +1,135 @@
+application: sacred-highway-108321
+#application: ross-1084
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /assets/css
+  static_dir: assets/css
+
+- url: /assets/js
+  static_dir: assets/js
+
+- url: /assets/fonts
+  static_dir: assets/fonts
+
+- url: /server
+  static_dir: server
+
+- url: /social
+  script: SocialHandler.app
+  login: required
+
+- url: /update
+  script: TrendingHandler.app
+  login: required
+
+- url: /trending
+  script: TrendingHandler.app
+  login: required
+
+- url: /countdown
+  script: TrendingHandler.app
+  #slogin: admin
+
+- url: /error
+  script: ErrorHandler.app
+  login: required
+
+- url: /manage
+  script: ManagementHandler.app
+  login: required
+
+- url: /deletestream
+  script: ManagementHandler.app
+  login: required
+
+- url: /unsubscribe
+  script: ManagementHandler.app
+  login: required
+
+- url: /create
+  script: CreateHandler.app
+  login: required
+
+- url: /sign
+  script: CreateHandler.app
+  login: required
+
+- url: /view
+  script: ViewHandler.app
+  login: required
+
+- url: /searchresult
+  script: SearchHandler.app
+  login: required
+
+- url: /search
+  script: SearchHandler.app
+  login: required
+
+- url: /autoapi.*
+  script: SearchHandler.app
+  login: required
+
+- url: /getimage.*
+  script: ViewSingleHandler.app
+  login: required
+
+- url: /routingerror
+  script: ViewSingleHandler.app
+
+- url: /clearviewcount
+  script: ViewSingleHandler.app
+  #login: admin
+
+- url: /subscribe.*
+  script: ViewSingleHandler.app
+  login: required
+
+- url: /unsubscribesingle.*
+  script: ViewSingleHandler.app
+  login: required
+
+- url: /geo
+  script: ViewSingleHandler.app
+  login: required
+
+- url: /geoview.*
+  script: ViewSingleHandler.app
+  login: required
+
+- url: /showmore.*
+  script: ViewSingleHandler.app
+  login: required
+
+#- url: /view_picture/([^/]+)?
+#  script: ViewSingleHandler.app
+#  login: required
+- url: /pic.*
+  script: ViewSingleHandler.app
+  login: required
+
+- url: /upload
+  script: upload_server.app
+  login: required
+
+- url: /stream.*
+  script: ViewSingleHandler.app
+  login: required
+
+- url: /.*
+  script: LoginHandler.app
+  #slogin: required
+
+libraries:
+- name: webapp2
+  version: latest
+
+- name: PIL
+  version: latest
+
+- name: jinja2
+  version: latest

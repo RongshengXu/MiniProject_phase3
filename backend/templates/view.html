@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% autoescape true%}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/common-style.css" />
+    <script></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <p class="navbar-brand">Connex.us</p>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="manage">Manage</a></li>
+                    <li><a href="create">Create</a></li>
+                    <li class="active"><a href="view">View</a></li>
+                    <li><a href="search">Search</a></li>
+                    <li><a href="trending">Trending</a></li>
+                    <li><a href="social">Social</a></li>
+                    <li><a href={{url}}>{{url_linktext}}</a><li></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">View All Streams</div>
+            <div class="panel-body">
+                {% if stream_query_len > 0%}
+                    {% for item in index_info %}
+                            <a href="{{item[2]}}">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <img src="{{item[1]}}" class="img-responsive img-rounded displayed"/>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <div style="text-align: center" class="list-group-item-heading">
+                                                <b>{{item[0]}}</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                    {% endfor %}
+                {% else %}
+                    <div style="text-align: center" class="list-group-item-heading">
+                        <p>No streams are available</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endautoescape %}
