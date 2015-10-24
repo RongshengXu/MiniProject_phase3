@@ -18,6 +18,10 @@ handlers:
 - url: /server
   static_dir: server
 
+- url: /android/mobileview
+  script: ViewHandler.app
+#  login: required
+
 - url: /social
   script: SocialHandler.app
   login: required

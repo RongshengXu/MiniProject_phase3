@@ -264,6 +264,17 @@ class Image(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'image/jpeg'
         self.response.out.write(pic.picture)
 
+class MoboileViewSingle(webapp2.RequestHandler):
+    def get(self):
+        stream_name = re.findall("%3D%3D(.+)", self.request.url)[0]
+        stream_query = StreamModel.query(StreamModel.name==stream_name).fetch()
+        picture_query = db.GqlQuery("SELECT *FROM PictureModel WHERE ANCESTOR IS :1 ORDER BY uploadDate DESC",
+                                      db.Key.from_path('StreamModel', stream_name))
+        stream = stream_query[0]
+        Images = []
+        for
+
+
 app = webapp2.WSGIApplication([
     ('/showmore.*', ShowMore),
     ('/stream.*', ViewSingle),

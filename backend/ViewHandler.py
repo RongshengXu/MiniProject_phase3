@@ -3,6 +3,7 @@ import webapp2
 
 import os
 import jinja2
+import json
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -30,6 +31,27 @@ class View(webapp2.RequestHandler):
         }
         self.response.write(template.render(template_values))
 
+class MobileView(webapp2.RequestHandler):
+    def get(self):
+        # receivedata=json.loads(self.request.body)
+
+        # print receivedata
+        # print self.request.body
+        # username=receivedata["username"]
+
+        streams=StreamModel.query().order(StreamModel.createTime).fetch()
+        names=[]
+        coverurls=[]
+        for stream in streams:
+            names.append(stream.name)
+            coverurls.append(stream.coverpageURL)
+
+        result={"streamcoverurls":coverurls, 'streamnames':names}
+        jsonObj=json.dumps(result, sort_keys=True,indent=4, separators=(',', ': '))
+        self.response.headers['Content-Type']="application/json"
+        self.response.write(jsonObj)
+
 app = webapp2.WSGIApplication([
-    ('/view', View)
+    ('/view', View),
+    ('/android/mobileview', MobileView)
 ], debug=True)
