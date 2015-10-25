@@ -31,9 +31,12 @@ import org.json.JSONObject;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+import android.view.View.OnClickListener;
+
 
 public class ImageUpload extends ActionBarActivity {
     private static final int PICK_IMAGE = 1;
+    private static final int TAKE_PICTURE = 2;
     Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,17 @@ public class ImageUpload extends ActionBarActivity {
                                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         // Start the Intent
                         startActivityForResult(galleryIntent, PICK_IMAGE);
+                    }
+                }
+        );
+
+        Button usecamerabutton = (Button) this.findViewById(R.id.use_camera);
+        usecamerabutton.setOnClickListener(
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent takePicIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePicIntent, TAKE_PICTURE);
                     }
                 }
         );
@@ -125,6 +139,12 @@ public class ImageUpload extends ActionBarActivity {
                         }
                     }
             );
+        }
+        if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK){
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ImageView mImageView = (ImageView) findViewById(R.id.thumbnail);
+            mImageView.setImageBitmap(imageBitmap);
         }
     }
 
