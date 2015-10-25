@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -33,15 +35,54 @@ import java.io.ByteArrayOutputStream;
 
 import android.view.View.OnClickListener;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 
 public class ImageUpload extends ActionBarActivity {
     private static final int PICK_IMAGE = 1;
     private static final int TAKE_PICTURE = 2;
     Context context = this;
+
+    double latitude;
+    double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_upload);
+
+        final TextView lat_val = (TextView) findViewById(R.id.lat_value);
+        final TextView lon_val = (TextView) findViewById(R.id.lon_value);
+
+        LocationManager location_manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener location_listener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+
+                lat_val.setText("Latitude: "+String.valueOf(latitude));
+                lon_val.setText("Longitude: "+String.valueOf(longitude));
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, (float)0.1, location_listener);
 
         // Choose image from library
         Button chooseFromLibraryButton = (Button) findViewById(R.id.choose_from_library);

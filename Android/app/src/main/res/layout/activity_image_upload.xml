@@ -54,5 +54,17 @@
             android:clickable="false"
             android:id="@+id/upload_to_server"
             />
+
+        <TextView
+            android:id="@+id/lat_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/lon_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
     </LinearLayout>
 </ScrollView>
