@@ -18,6 +18,12 @@ handlers:
 - url: /server
   static_dir: server
 
+- url: /android/getimage.*
+  script: ViewHandler.app
+
+- url: /android/mobileviewsingle.*
+  script: ViewHandler.app
+
 - url: /android/mobileview
   script: ViewHandler.app
 #  login: required

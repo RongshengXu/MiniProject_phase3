@@ -6,6 +6,7 @@ package com.aptdemo.yzhao.androiddemo;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.content.Intent;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -38,11 +39,12 @@ import com.loopj.android.http.*;
 public class ViewStream extends ActionBarActivity {
     Context context = this;
     private String TAG  = "Display Streams";
-
+    private Context mycontext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_stream);
+        mycontext = this;
 
         final String request_url = "http://sacred-highway-108321.appspot.com/android/mobileview";
 //        final String request_url = "http://aptandroiddemo.appspot.com/viewAllPhotos";
@@ -55,6 +57,8 @@ public class ViewStream extends ActionBarActivity {
                 final ArrayList<String> imageCaps = new ArrayList<String>();
                 try {
                     JSONObject jObject = new JSONObject(new String(response));
+//                    JSONArray displayImages = jObject.getJSONArray("imageurl");
+//                    JSONArray displayCaption = jObject.getJSONArray("imagecap");
                     JSONArray displayImages = jObject.getJSONArray("streamcoverurls");
                     JSONArray displayCaption = jObject.getJSONArray("streamnames");
 //                    JSONArray displayImages = jObject.getJSONArray("displayImages");
@@ -74,17 +78,26 @@ public class ViewStream extends ActionBarActivity {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
 
-                            Toast.makeText(context, imageCaps.get(position), Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(mycontext, ViewStreamSingle.class);
+                            intent.putExtra("message", imageCaps.get(position));
+                            startActivity(intent);
 
-                            Dialog imageDialog = new Dialog(context);
-                            imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            imageDialog.setContentView(R.layout.thumbnail);
-                            ImageView image = (ImageView) imageDialog.findViewById(R.id.thumbnail_IMAGEVIEW);
-
-                            Picasso.with(context).load(imageURLs.get(position)).into(image);
-
-                            imageDialog.show();
+//                            Toast.makeText(context, imageCaps.get(position), Toast.LENGTH_SHORT).show();
+//
+//                            Dialog imageDialog = new Dialog(context);
+//                            imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                            imageDialog.setContentView(R.layout.thumbnail);
+//                            ImageView image = (ImageView) imageDialog.findViewById(R.id.thumbnail_IMAGEVIEW);
+//
+//                            Picasso.with(context).load(imageURLs.get(position)).into(image);
+//
+//                            imageDialog.show();
                         }
+
+//                        @Override
+//                        public void onClick(View v) {
+//
+//                        }
                     });
                 }
                 catch(JSONException j){
