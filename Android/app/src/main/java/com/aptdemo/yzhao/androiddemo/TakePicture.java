@@ -23,6 +23,8 @@ import java.util.List;
 
 public class TakePicture extends ActionBarActivity implements
         SurfaceHolder.Callback,PictureCallback, View.OnClickListener{
+    private static final int TAKE_PICTURE = 2;
+
     Context context = this;
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -37,6 +39,7 @@ public class TakePicture extends ActionBarActivity implements
     private String streamName;
     private byte[] mImage;
 
+    byte[] image_data;
     private Bitmap m_bitmap;
 //    protected MyApplication myApp;
 
@@ -46,8 +49,8 @@ public class TakePicture extends ActionBarActivity implements
         setContentView(R.layout.activity_takepicture);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        Bundle extras = getIntent().getExtras();
-//        streamName = extras.getString("stream_name");
+        Bundle extras = getIntent().getExtras();
+        streamName = extras.getString("stream_name");
 
         mSurfaceView = (SurfaceView) findViewById(R.id.surface_camera);
         mImageView = (ImageView) findViewById(R.id.imageView);
@@ -82,9 +85,11 @@ public class TakePicture extends ActionBarActivity implements
                 mCamera.takePicture(null,null,this);
                 break;
             case R.id.submit_button:
-//                Intent intent= new Intent(this, ImageUpload.class);
-//                intent.putExtra("image",m_bitmap);
-//                startActivity(intent);
+                Intent intent= new Intent(this, ImageUpload.class);
+                intent.putExtra("message", streamName);
+                intent.putExtra("data", image_data);
+                //startActivity(intent);
+                startActivityForResult(intent, TAKE_PICTURE);
                 //uploadImage();
         }
     }
@@ -130,6 +135,7 @@ public class TakePicture extends ActionBarActivity implements
             submitButton.setClickable(true);
             submitButton.setEnabled(true);
 
+            image_data = data;
             m_bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 
             Matrix matrix = new Matrix();
