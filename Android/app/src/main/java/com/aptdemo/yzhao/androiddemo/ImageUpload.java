@@ -195,7 +195,7 @@ public class ImageUpload extends ActionBarActivity {
             );
         }
 
-        if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK){
+        if (requestCode == TAKE_PICTURE && data != null && data.getData() != null){
             Bundle extras = data.getExtras();
             final Bitmap imageBitmap = (Bitmap) extras.get("data");
             ImageView mImageView = (ImageView) findViewById(R.id.thumbnail);
@@ -334,6 +334,7 @@ public class ImageUpload extends ActionBarActivity {
 
     public void cameraWithPreview(View view){
         Intent intent= new Intent(this, TakePicture.class);
+        intent.putExtra("stream_name", message);
         startActivity(intent);
     }
 }
