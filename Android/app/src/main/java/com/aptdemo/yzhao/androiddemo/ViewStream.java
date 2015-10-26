@@ -53,6 +53,27 @@ public class ViewStream extends ActionBarActivity {
 
         final String request_url = "http://sacred-highway-108321.appspot.com/android/mobileview";
 //        final String request_url = "http://aptandroiddemo.appspot.com/viewAllPhotos";
+//        final Button searchButton = (Button) findViewById(R.id.search);
+//        searchButton.setClickable(true);
+//        searchButton.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        System.out.println("Hello!!");
+//
+//                        EditText text = (EditText) findViewById(R.id.search_message);
+//                        if (text.length() > 0) {
+//                            String pattern = text.toString();
+//                            System.out.println(pattern);
+//                            Intent intent= new Intent(mycontext, SearchStream.class);
+//                            intent.putExtra("message", pattern);
+//                            startActivity(intent);
+//                        }
+//
+//                    }
+//                }
+//        );
 
         AsyncHttpClient httpClient = new AsyncHttpClient();
         httpClient.get(request_url, new AsyncHttpResponseHandler() {
@@ -87,16 +108,6 @@ public class ViewStream extends ActionBarActivity {
                             intent.putExtra("message", imageCaps.get(position));
                             startActivity(intent);
 
-//                            Toast.makeText(context, imageCaps.get(position), Toast.LENGTH_SHORT).show();
-//
-//                            Dialog imageDialog = new Dialog(context);
-//                            imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                            imageDialog.setContentView(R.layout.thumbnail);
-//                            ImageView image = (ImageView) imageDialog.findViewById(R.id.thumbnail_IMAGEVIEW);
-//
-//                            Picasso.with(context).load(imageURLs.get(position)).into(image);
-//
-//                            imageDialog.show();
                         }
 
 //                        @Override
