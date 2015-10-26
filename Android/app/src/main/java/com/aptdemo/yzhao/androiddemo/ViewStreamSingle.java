@@ -48,13 +48,14 @@ public class ViewStreamSingle extends ActionBarActivity {
     private String TAG  = "Display Single Stream";
     private Context mycontext;
     private TextView stname;
+    private String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_stream_single);
         Bundle bundle = getIntent().getExtras();
-        final String message = bundle.getString("message");
+        message = bundle.getString("message");
         System.out.println("Stream is " + message);
 
         stname = (TextView) findViewById(R.id.name);
@@ -186,6 +187,12 @@ public class ViewStreamSingle extends ActionBarActivity {
 
     public void viewStream(View view){
         Intent intent= new Intent(this, ViewStream.class);
+        startActivity(intent);
+    }
+
+    public void showMore(View view) {
+        Intent intent = new Intent(this, ViewStreamSingle.class);
+        intent.putExtra("message", message);
         startActivity(intent);
     }
 

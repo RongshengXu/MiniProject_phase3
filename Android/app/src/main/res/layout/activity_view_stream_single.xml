@@ -38,6 +38,14 @@
         />
 
     <Button
+        android:id="@+id/show_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/showmoreActivity"
+        android:onClick="showMore"
+        />
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/uploadImageActivity"

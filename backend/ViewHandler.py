@@ -11,6 +11,8 @@ import jinja2
 import json
 import re
 
+mobileshow = 0
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -59,6 +61,7 @@ class MobileView(webapp2.RequestHandler):
 
 class MoboileViewSingle(webapp2.RequestHandler):
     def get(self):
+        global mobileshow
         stream_name = re.findall("%3D%3D(.+)", self.request.url)[0]
         stream_query = StreamModel.query(StreamModel.name==stream_name).fetch()
         picture_query = db.GqlQuery("SELECT *FROM PictureModel WHERE ANCESTOR IS :1 ORDER BY uploadDate DESC",
@@ -66,10 +69,21 @@ class MoboileViewSingle(webapp2.RequestHandler):
         stream = stream_query[0]
         Imagesurl = []
         Imagecap = []
-        for picture in picture_query:
-            s = "http://sacred-highway-108321.appspot.com/android/getimage==" + stream_name + "===" + str(picture.id)
-            Imagesurl.append(s)
-            Imagecap.append(str(picture.id))
+        num = stream.totalPicture
+        if (num > 16):
+            for picture in picture_query:
+                if (int(picture.id)>(mobileshow*16) and int(picture.id)<=((mobileshow+1)*16)):
+                    s = "http://sacred-highway-108321.appspot.com/android/getimage==" + stream_name + "===" + str(picture.id)
+                    Imagesurl.append(s)
+                    Imagecap.append(str(picture.id))
+            mobileshow += 1
+            if mobileshow*16 > num:
+                mobileshow = 0
+        else:
+            for picture in picture_query:
+                s = "http://sacred-highway-108321.appspot.com/android/getimage==" + stream_name + "===" + str(picture.id)
+                Imagesurl.append(s)
+                Imagecap.append(str(picture.id))
         # Imagesurl.append("http://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2013/01/24/12/v2-cute-cat-picture.jpg")
         # Imagecap.append("Haha")
         result = {"imageurl":Imagesurl, 'imagecap':Imagecap}
