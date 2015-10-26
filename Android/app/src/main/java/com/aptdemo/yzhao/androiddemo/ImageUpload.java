@@ -242,7 +242,7 @@ public class ImageUpload extends ActionBarActivity {
                     Log.w("async", "success!!!!");
                     Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
                     // go back to single stream view
-                    Intent intent= new Intent(mycontext, ViewStreamSingle.class);
+                    Intent intent= new Intent(context, ViewStreamSingle.class);
                     intent.putExtra("message", stream_name);
                     startActivity(intent);
                 }

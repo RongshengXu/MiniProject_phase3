@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.aptdemo.yzhao.androiddemo.ViewStream">
+
+    <EditText
+        android:id="@+id/search_message"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:hint="@string/search_hint"
+        android:inputType="text"
+        />
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search"
+        />
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="90dp"
+        android:numColumns="4"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        />
+
+    <!--<searchable xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:label="@string/search_label"-->
+    <!--android:hint="@string/search_hint" >-->
+    <!--</searchable>-->
+
+    <Button
+        android:id="@+id/subscribe_stream"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/subscribe_stream"
+        />
+
+    <Button
+        android:id="@+id/view_all_streams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/imagePage"
+        android:onClick="viewStream"
+        />
+
 
 </LinearLayout>

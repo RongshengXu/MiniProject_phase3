@@ -357,7 +357,7 @@ public class Homepage extends ActionBarActivity implements
 
         mStatus.setText("Signed out");
         Button uploadButton = (Button) findViewById(R.id.open_image_upload_page);
-        uploadButton.setClickable(false);
+//        uploadButton.setClickable(false);
 
         if (imageView != null) {
             ((ViewGroup) imageView.getParent()).removeView(imageView);
