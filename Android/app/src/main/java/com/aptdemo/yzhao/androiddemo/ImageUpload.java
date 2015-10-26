@@ -85,7 +85,7 @@ public class ImageUpload extends ActionBarActivity {
             }
         };
 
-        location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, (float)0.1, location_listener);
+        location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, (float) 0.1, location_listener);
 
         // Choose image from library
         Button chooseFromLibraryButton = (Button) findViewById(R.id.choose_from_library);
@@ -189,9 +189,33 @@ public class ImageUpload extends ActionBarActivity {
         }
         if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            final Bitmap imageBitmap = (Bitmap) extras.get("data");
             ImageView mImageView = (ImageView) findViewById(R.id.thumbnail);
             mImageView.setImageBitmap(imageBitmap);
+
+            final Button uploadButton = (Button) findViewById(R.id.upload_to_server);
+            uploadButton.setClickable(true);
+            uploadButton.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            // Get photo caption
+
+                            EditText text = (EditText) findViewById(R.id.upload_message);
+                            String photoCaption = text.getText().toString();
+
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                            byte[] b = baos.toByteArray();
+                            byte[] encodedImage = Base64.encode(b, Base64.DEFAULT);
+                            String encodedImageStr = encodedImage.toString();
+
+//                            getUploadURL(b, photoCaption);
+                            uploadHandler(b, message);
+                        }
+                    }
+            );
         }
     }
 
