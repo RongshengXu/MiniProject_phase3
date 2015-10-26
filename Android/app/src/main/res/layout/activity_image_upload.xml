@@ -27,6 +27,13 @@
             android:text="@string/choose_from_library"
             />
 
+        <Button
+            android:id="@+id/use_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/use_camera"
+            />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,6 +61,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dip"
             android:text="@string/status_signed_out" />
+
+        <TextView
+            android:id="@+id/lat_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/lon_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
 
     </LinearLayout>
 </ScrollView>
