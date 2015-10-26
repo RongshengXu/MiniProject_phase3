@@ -90,9 +90,30 @@ class MobileGetImage(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'image/jpeg'
         self.response.out.write(stream_name + " and " + pic_id + "aaa")
 
+class MobileUpload(webapp2.RequestHandler):
+    def get(self):
+        stream_name = self.request.params['streamname']
+        self.response.write(stream_name)
+
+    def post(self):
+        picture = self.request.get('file')
+        stream_name = self.request.params['streamname']
+        stream_query = StreamModel.query(StreamModel.name==stream_name)
+        stream = stream_query.fetch()[0]
+        stream.totalPicture = stream.totalPicture + 1
+        user_picture = PictureModel(parent = db.Key.from_path('StreamModel', stream_name))
+        user_picture.id = str(stream.totalPicture)
+        picture = images.resize(picture, 320, 400)
+        user_picture.picture = db.Blob(picture)
+        stream.lastUpdated = user_picture.uploadDate
+        stream.put()
+        user_picture.put()
+        # self.response.write(stream_name+" and "+type(picture))
+
 app = webapp2.WSGIApplication([
     ('/view', View),
     ('/android/mobileview', MobileView),
     ('/android/mobileviewsingle.*', MoboileViewSingle),
-    ('/android/getimage.*', MobileGetImage)
+    ('/android/getimage.*', MobileGetImage),
+    ('/android/upload', MobileUpload)
 ], debug=True)

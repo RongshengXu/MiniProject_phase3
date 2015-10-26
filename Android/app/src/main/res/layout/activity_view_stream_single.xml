@@ -8,13 +8,22 @@
     tools:context="com.aptdemo.yzhao.androiddemo.ViewStreamSingle">
 
     <TextView
-        android:text="@string/imagePage"
+        android:text="@string/welcome"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="40sp"
         android:paddingBottom = "40sp"
         />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:textSize="20sp"
+        android:paddingBottom = "20sp"/>
+        <!--android:text="@string/status_signed_out" />-->
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
@@ -26,5 +35,20 @@
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/uploadImageActivity"
+        android:clickable="false"
+        android:id="@+id/open_image_upload_page"/>
+
+    <Button
+        android:id="@+id/view_all_streams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/imagePage"
+        android:onClick="viewStream"
         />
 </LinearLayout>

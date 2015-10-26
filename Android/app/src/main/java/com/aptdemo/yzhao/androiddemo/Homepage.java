@@ -245,6 +245,7 @@ public class Homepage extends ActionBarActivity implements
                     @Override
                     public void onClick(View v) {
                         Intent intent= new Intent(context, ImageUpload.class);
+                        intent.putExtra("message", "tt");
                         startActivity(intent);
                     }
                 }

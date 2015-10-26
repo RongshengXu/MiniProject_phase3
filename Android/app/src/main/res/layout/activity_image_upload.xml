@@ -47,5 +47,13 @@
             android:clickable="false"
             android:id="@+id/upload_to_server"
             />
+
+        <TextView
+            android:id="@+id/stream_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dip"
+            android:text="@string/status_signed_out" />
+
     </LinearLayout>
 </ScrollView>

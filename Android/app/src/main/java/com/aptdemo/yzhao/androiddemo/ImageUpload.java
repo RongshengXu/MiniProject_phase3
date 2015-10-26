@@ -35,10 +35,13 @@ import java.io.ByteArrayOutputStream;
 public class ImageUpload extends ActionBarActivity {
     private static final int PICK_IMAGE = 1;
     Context context = this;
+    private String message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_upload);
+        Bundle bundle = getIntent().getExtras();
+        message = bundle.getString("message");
 
         // Choose image from library
         Button chooseFromLibraryButton = (Button) findViewById(R.id.choose_from_library);
@@ -79,6 +82,8 @@ public class ImageUpload extends ActionBarActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Bundle bundle = getIntent().getExtras();
+        String stream_name = bundle.getString("message");
         if (requestCode == PICK_IMAGE && data != null && data.getData() != null) {
             Uri selectedImage = data.getData();
 
@@ -102,7 +107,7 @@ public class ImageUpload extends ActionBarActivity {
 
             // Enable the upload button once image has been uploaded
 
-            Button uploadButton = (Button) findViewById(R.id.upload_to_server);
+            final Button uploadButton = (Button) findViewById(R.id.upload_to_server);
             uploadButton.setClickable(true);
 
             uploadButton.setOnClickListener(
@@ -121,12 +126,59 @@ public class ImageUpload extends ActionBarActivity {
                             byte[] encodedImage = Base64.encode(b, Base64.DEFAULT);
                             String encodedImageStr = encodedImage.toString();
 
-                            getUploadURL(b, photoCaption);
+//                            getUploadURL(b, photoCaption);
+                            uploadHandler(b, message);
                         }
                     }
             );
         }
     }
+
+    private void uploadHandler(final byte[] encodedImage, final String stream_name) {
+            AsyncHttpClient httpClient = new AsyncHttpClient();
+            String request_url= "http://sacred-highway-108321.appspot.com/android/";
+            String upload_url = "http://sacred-highway-108321.appspot.com/android/upload";
+            RequestParams params = new RequestParams();
+            params.put("file",new ByteArrayInputStream(encodedImage));
+            params.put("streamname", stream_name);
+            AsyncHttpClient client = new AsyncHttpClient();
+            System.out.println(upload_url+" \n" + encodedImage.toString());
+            client.post(upload_url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                    Log.w("async", "success!!!!");
+                    Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                    System.out.println(new String(errorResponse));
+                    Log.e("Posting_to_blob", "There was a problem in retrieving the url : " + e.toString());
+                }
+            });
+//            httpClient.get(request_url, new AsyncHttpResponseHandler() {
+//                String upload_url;
+//                @Override
+//                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+//
+//                    try {
+//                        JSONObject jObject = new JSONObject(new String(response));
+//
+//                        upload_url = jObject.getString("upload_url");
+//                        postToServer(encodedImage, photoCaption, upload_url);
+//
+//                    }
+//                    catch(JSONException j){
+//                        System.out.println("JSON Error");
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+//                    Log.e("Get_serving_url", "There was a problem in retrieving the url : " + e.toString());
+//                }
+//            });
+        }
 
     private void getUploadURL(final byte[] encodedImage, final String photoCaption){
         AsyncHttpClient httpClient = new AsyncHttpClient();
@@ -156,7 +208,7 @@ public class ImageUpload extends ActionBarActivity {
         });
     }
 
-    private void postToServer(byte[] encodedImage,String photoCaption, String upload_url){
+    private void postToServer(final byte[] encodedImage,String photoCaption, final String upload_url){
         System.out.println(upload_url);
         RequestParams params = new RequestParams();
         params.put("file",new ByteArrayInputStream(encodedImage));
@@ -165,6 +217,8 @@ public class ImageUpload extends ActionBarActivity {
         client.post(upload_url, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                System.out.println(upload_url);
+                System.out.println(encodedImage.toString());
                 Log.w("async", "success!!!!");
                 Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
             }
