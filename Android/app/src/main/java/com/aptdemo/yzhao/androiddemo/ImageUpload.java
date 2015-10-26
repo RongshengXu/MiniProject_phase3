@@ -42,10 +42,11 @@ import android.location.LocationManager;
 public class ImageUpload extends ActionBarActivity {
     private static final int PICK_IMAGE = 1;
     private static final int TAKE_PICTURE = 2;
+
+
+
     Context context = this;
     private String message;
-    private TextView stname;
-    private Context mycontext;
 
     double latitude;
     double longitude;
@@ -53,13 +54,9 @@ public class ImageUpload extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mycontext = this;
         setContentView(R.layout.activity_image_upload);
         Bundle bundle = getIntent().getExtras();
         message = bundle.getString("message");
-
-        stname = (TextView) findViewById(R.id.stream_name);
-        stname.setText("View stream: " + message);
 
         final TextView lat_val = (TextView) findViewById(R.id.lat_value);
         final TextView lon_val = (TextView) findViewById(R.id.lon_value);
@@ -145,6 +142,7 @@ public class ImageUpload extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Bundle bundle = getIntent().getExtras();
         final String stream_name = bundle.getString("message");
+
         if (requestCode == PICK_IMAGE && data != null && data.getData() != null) {
             Uri selectedImage = data.getData();
 
@@ -179,9 +177,7 @@ public class ImageUpload extends ActionBarActivity {
                             // Get photo caption
 
                             EditText text = (EditText) findViewById(R.id.upload_message);
-                            if (text.length()>0) {
-                                String photoCaption = text.getText().toString();
-                            }
+                            String photoCaption = text.getText().toString();
 
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
                             bitmapImage.compress(Bitmap.CompressFormat.JPEG, 50, baos);
@@ -191,18 +187,10 @@ public class ImageUpload extends ActionBarActivity {
 
 //                            getUploadURL(b, photoCaption);
                             uploadHandler(b, message);
-
-                            Intent intent= new Intent(mycontext, ViewStreamSingle.class);
-                            intent.putExtra("message", stream_name);
-                            startActivity(intent);
                         }
                     }
             );
         }
-
-        final Button searchButton = (Button) findViewById(R.id.upload_to_server);
-        searchButton.setClickable(true);
-
         if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
             final Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -229,9 +217,6 @@ public class ImageUpload extends ActionBarActivity {
 
 //                            getUploadURL(b, photoCaption);
                             uploadHandler(b, message);
-                            Intent intent= new Intent(mycontext, ViewStreamSingle.class);
-                            intent.putExtra("message", stream_name);
-                            startActivity(intent);
                         }
                     }
             );
@@ -260,6 +245,28 @@ public class ImageUpload extends ActionBarActivity {
                     Log.e("Posting_to_blob", "There was a problem in retrieving the url : " + e.toString());
                 }
             });
+//            httpClient.get(request_url, new AsyncHttpResponseHandler() {
+//                String upload_url;
+//                @Override
+//                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+//
+//                    try {
+//                        JSONObject jObject = new JSONObject(new String(response));
+//
+//                        upload_url = jObject.getString("upload_url");
+//                        postToServer(encodedImage, photoCaption, upload_url);
+//
+//                    }
+//                    catch(JSONException j){
+//                        System.out.println("JSON Error");
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+//                    Log.e("Get_serving_url", "There was a problem in retrieving the url : " + e.toString());
+//                }
+//            });
         }
 
     private void getUploadURL(final byte[] encodedImage, final String photoCaption){
@@ -268,6 +275,7 @@ public class ImageUpload extends ActionBarActivity {
         System.out.println(request_url);
         httpClient.get(request_url, new AsyncHttpResponseHandler() {
             String upload_url;
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
 
@@ -277,8 +285,7 @@ public class ImageUpload extends ActionBarActivity {
                     upload_url = jObject.getString("upload_url");
                     postToServer(encodedImage, photoCaption, upload_url);
 
-                }
-                catch(JSONException j){
+                } catch (JSONException j) {
                     System.out.println("JSON Error");
                 }
             }
@@ -294,7 +301,7 @@ public class ImageUpload extends ActionBarActivity {
         System.out.println(upload_url);
         RequestParams params = new RequestParams();
         params.put("file",new ByteArrayInputStream(encodedImage));
-        params.put("photoCaption",photoCaption);
+        params.put("photoCaption", photoCaption);
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(upload_url, params, new AsyncHttpResponseHandler() {
             @Override
@@ -304,16 +311,21 @@ public class ImageUpload extends ActionBarActivity {
                 Log.w("async", "success!!!!");
                 Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                Log.e("Posting_to_blob","There was a problem in retrieving the url : " + e.toString());
+                Log.e("Posting_to_blob", "There was a problem in retrieving the url : " + e.toString());
             }
         });
     }
 
     public void viewStream(View view){
         Intent intent= new Intent(this, ViewStream.class);
+        startActivity(intent);
+    }
 
+    public void cameraWithPreview(View view){
+        Intent intent= new Intent(this, TakePicture.class);
         startActivity(intent);
     }
 }
