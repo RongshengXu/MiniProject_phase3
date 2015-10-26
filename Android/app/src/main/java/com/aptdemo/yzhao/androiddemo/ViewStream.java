@@ -7,21 +7,25 @@ import android.app.Dialog;
 import android.content.Context;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.util.*;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.Base64;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
@@ -29,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
@@ -72,13 +77,13 @@ public class ViewStream extends ActionBarActivity {
                     }
                     System.out.println("Test.....");
                     GridView gridview = (GridView) findViewById(R.id.gridview);
-                    gridview.setAdapter(new ImageAdapter(context,imageURLs));
+                    gridview.setAdapter(new ImageAdapter(context, imageURLs));
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
 
-                            Intent intent= new Intent(mycontext, ViewStreamSingle.class);
+                            Intent intent = new Intent(mycontext, ViewStreamSingle.class);
                             intent.putExtra("message", imageCaps.get(position));
                             startActivity(intent);
 
@@ -99,8 +104,7 @@ public class ViewStream extends ActionBarActivity {
 //
 //                        }
                     });
-                }
-                catch(JSONException j){
+                } catch (JSONException j) {
                     System.out.println("JSON Error");
                     System.out.println(new String(response));
 //                    System.out.println(new String(headers));
@@ -114,6 +118,32 @@ public class ViewStream extends ActionBarActivity {
             }
         });
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final Button searchButton = (Button) findViewById(R.id.search);
+        searchButton.setClickable(true);
+        searchButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        System.out.println("Hello!!");
+
+                        EditText text = (EditText) findViewById(R.id.search_message);
+                        if (text.length() > 0) {
+                            String pattern = text.toString();
+                            System.out.println(pattern);
+                            Intent intent= new Intent(mycontext, SearchStream.class);
+                            intent.putExtra("message", pattern);
+                            startActivity(intent);
+                        }
+
+                    }
+                }
+        );
+    }
+
 
 
     @Override

@@ -18,6 +18,9 @@ handlers:
 - url: /server
   static_dir: server
 
+- url: /android/searchresult.*
+  script: ViewHandler.app
+
 - url: /android/upload
   script: ViewHandler.app
 

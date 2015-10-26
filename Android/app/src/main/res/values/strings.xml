@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Android Demo</string>
+    <string name="search_label">Search Streams</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="welcome">Welcome to Connexus</string>
@@ -15,6 +16,7 @@
 
     <string name="title_activity_display_images">DisplayImages</string>
     <string name="title_activity_display_single_stream">DisplaySingleStream</string>
+    <string name="title_search_stream">SearchStream</string>
     <string name="imagePage">View All Streams</string>
     <string name="showmoreActivity"> Show More </string>
     <string name="uploadImageActivity"> Upload a new image</string>

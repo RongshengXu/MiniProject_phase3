@@ -237,19 +237,19 @@ public class Homepage extends ActionBarActivity implements
 
         mStatus.setText(email + " is currently Signed In");
 
-        Button uploadButton = (Button) findViewById(R.id.open_image_upload_page);
-        uploadButton.setClickable(true);
-
-        uploadButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent= new Intent(context, ImageUpload.class);
-                        intent.putExtra("message", "tt");
-                        startActivity(intent);
-                    }
-                }
-        );
+//        Button uploadButton = (Button) findViewById(R.id.open_image_upload_page);
+//        uploadButton.setClickable(true);
+//
+//        uploadButton.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent= new Intent(context, ImageUpload.class);
+//                        intent.putExtra("message", "tt");
+//                        startActivity(intent);
+//                    }
+//                }
+//        );
     }
 
     /* onConnectionFailed is called when our Activity could not connect to Google

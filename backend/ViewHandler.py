@@ -124,10 +124,36 @@ class MobileUpload(webapp2.RequestHandler):
         user_picture.put()
         # self.response.write(stream_name+" and "+type(picture))
 
+class MobileSearchResult(webapp2.RequestHandler):
+    def get(self):
+        pattern = re.findall("%3D%3D(.+)",self.request.url)[0]
+        found_in_tag = False
+        Name = []
+        streams = StreamModel.query().fetch()
+        for st in streams:
+            Name.append(st.name)
+        display = 0
+        streamnames = []
+        # infos = []
+        for name in Name:
+            fi = re.findall(pattern, name)
+            stream = StreamModel.query(StreamModel.name==name).fetch()[0]
+            for tag in stream.tag:
+                if len(re.findall(pattern,tag))>0:
+                    found_in_tag = True
+            if len(fi)>0 or found_in_tag==True:
+                streamnames.append(stream.name)
+                display += 1
+        result = {"streamname":streamnames, 'totalnum':display}
+        jsonObj=json.dumps(result, sort_keys=True,indent=4, separators=(',', ': '))
+        self.response.headers['Content-Type']="application/json"
+        self.response.write(jsonObj)
+
 app = webapp2.WSGIApplication([
     ('/view', View),
     ('/android/mobileview', MobileView),
     ('/android/mobileviewsingle.*', MoboileViewSingle),
     ('/android/getimage.*', MobileGetImage),
-    ('/android/upload', MobileUpload)
+    ('/android/upload', MobileUpload),
+    ('/android/searchresult.*', MobileSearchResult)
 ], debug=True)

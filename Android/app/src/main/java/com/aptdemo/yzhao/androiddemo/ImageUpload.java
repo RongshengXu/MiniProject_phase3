@@ -181,6 +181,7 @@ public class ImageUpload extends ActionBarActivity {
                             EditText text = (EditText) findViewById(R.id.upload_message);
                             if (text.length()>0) {
                                 String photoCaption = text.getText().toString();
+                                System.out.println(photoCaption);
                             }
 
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -200,9 +201,6 @@ public class ImageUpload extends ActionBarActivity {
             );
         }
 
-        final Button searchButton = (Button) findViewById(R.id.upload_to_server);
-        searchButton.setClickable(true);
-
         if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
             final Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -218,8 +216,8 @@ public class ImageUpload extends ActionBarActivity {
 
                             // Get photo caption
 
-                            EditText text = (EditText) findViewById(R.id.upload_message);
-                            String photoCaption = text.getText().toString();
+//                            EditText text = (EditText) findViewById(R.id.upload_message);
+//                            String photoCaption = text.getText().toString();
 
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
                             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
@@ -229,9 +227,6 @@ public class ImageUpload extends ActionBarActivity {
 
 //                            getUploadURL(b, photoCaption);
                             uploadHandler(b, message);
-                            Intent intent= new Intent(mycontext, ViewStreamSingle.class);
-                            intent.putExtra("message", stream_name);
-                            startActivity(intent);
                         }
                     }
             );
@@ -252,6 +247,10 @@ public class ImageUpload extends ActionBarActivity {
                 public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                     Log.w("async", "success!!!!");
                     Toast.makeText(context, "Upload Successful", Toast.LENGTH_SHORT).show();
+                    // go back to single stream view
+                    Intent intent= new Intent(mycontext, ViewStreamSingle.class);
+                    intent.putExtra("message", stream_name);
+                    startActivity(intent);
                 }
 
                 @Override

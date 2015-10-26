@@ -30,9 +30,11 @@
 
     <EditText
         android:id="@+id/search_message"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:hint="@string/search_hint" />
+        android:hint="@string/search_hint"
+        android:inputType="text"
+        />
 
     <Button
         android:id="@+id/search"
@@ -40,6 +42,10 @@
         android:layout_height="wrap_content"
         android:text="@string/search"
         />
+    <!--<searchable xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:label="@string/search_label"-->
+        <!--android:hint="@string/search_hint" >-->
+    <!--</searchable>-->
 
     <Button
         android:id="@+id/subscribe_stream"
