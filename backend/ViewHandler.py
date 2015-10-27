@@ -133,6 +133,7 @@ class MobileSearchResult(webapp2.RequestHandler):
         for st in streams:
             Name.append(st.name)
         display = 0
+        streamcoverURLs = []
         streamnames = []
         # infos = []
         for name in Name:
@@ -142,9 +143,10 @@ class MobileSearchResult(webapp2.RequestHandler):
                 if len(re.findall(pattern,tag))>0:
                     found_in_tag = True
             if len(fi)>0 or found_in_tag==True:
+                streamcoverURLs.append(stream.coverpageURL)
                 streamnames.append(stream.name)
                 display += 1
-        result = {"streamname":streamnames, 'totalnum':display}
+        result = {"streamcoverurls":streamcoverURLs, 'streamnames':streamnames}
         jsonObj=json.dumps(result, sort_keys=True,indent=4, separators=(',', ': '))
         self.response.headers['Content-Type']="application/json"
         self.response.write(jsonObj)

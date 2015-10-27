@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.aptdemo.yzhao.androiddemo.ViewStream">
+    tools:context="apt.com.miniproject.ViewStream">
 
     <TextView
         android:text="@string/imagePage"
@@ -27,21 +27,26 @@
         android:stretchMode="columnWidth"
         android:gravity="center"
         />
-
-    <EditText
-        android:id="@+id/search_message"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:hint="@string/search_hint"
-        android:inputType="text"
-        />
-
-    <Button
-        android:id="@+id/search"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
-        />
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/search_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_hint"
+            android:inputType="text"
+            />
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:onClick="searchHandler"
+            />
+    </LinearLayout>
     <!--<searchable xmlns:android="http://schemas.android.com/apk/res/android"-->
         <!--android:label="@string/search_label"-->
         <!--android:hint="@string/search_hint" >-->

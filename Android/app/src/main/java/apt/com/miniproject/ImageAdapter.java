@@ -1,5 +1,4 @@
-package com.aptdemo.yzhao.androiddemo;
-
+package apt.com.miniproject;
 
 import android.widget.BaseAdapter;
 import android.content.Context;

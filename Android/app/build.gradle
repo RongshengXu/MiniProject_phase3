@@ -9,7 +9,7 @@ android {
     defaultConfig {
 
 
-        applicationId "com.aptdemo.yzhao.androiddemo"
+        applicationId "apt.com.miniproject"
         minSdkVersion 14
         targetSdkVersion 19
         versionCode 1

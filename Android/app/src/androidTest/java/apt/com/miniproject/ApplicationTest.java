@@ -1,4 +1,4 @@
-package com.aptdemo.yzhao.androiddemo;
+package apt.com.miniproject;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

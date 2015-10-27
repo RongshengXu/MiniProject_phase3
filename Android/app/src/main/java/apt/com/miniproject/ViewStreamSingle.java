@@ -1,4 +1,4 @@
-package com.aptdemo.yzhao.androiddemo;
+package apt.com.miniproject;
 
 /**
  * Created by rongshengxu on 10/24/15.
