@@ -7,20 +7,33 @@
     android:orientation="vertical"
     tools:context="apt.com.miniproject.SearchStream">
 
-    <EditText
-        android:id="@+id/search_message"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:hint="@string/search_hint"
-        android:inputType="text"
-        />
-
-    <Button
-        android:id="@+id/search"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/search_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_hint"
+            android:inputType="text"
+            />
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:onClick="searchHandler"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/result_mesage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search"
-        />
+        android:layout_marginBottom="20dip" />
+        <!--android:text="@string/status_signed_out" />-->
+
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
@@ -38,13 +51,6 @@
     <!--android:label="@string/search_label"-->
     <!--android:hint="@string/search_hint" >-->
     <!--</searchable>-->
-
-    <Button
-        android:id="@+id/subscribe_stream"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/subscribe_stream"
-        />
 
     <Button
         android:id="@+id/view_all_streams"

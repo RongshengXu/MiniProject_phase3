@@ -45,11 +45,25 @@ public class ViewStream extends ActionBarActivity {
     Context context = this;
     private String TAG = "Display Streams";
     private Context mycontext;
+    String user_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_stream);
+        Bundle bundle = getIntent().getExtras();
+        String temp = new String();
+        if (!bundle.isEmpty()) {
+            temp = bundle.getString("user");
+            if (temp.equals("")) {
+                System.out.println("empty user!");
+            } else {
+                user_name = temp;
+            }
+        } else {
+            System.out.println("No user found");
+        }
+        System.out.println("user is "+ user_name);
         mycontext = this;
 
         final String request_url = "http://sacred-highway-108321.appspot.com/android/mobileview";
@@ -85,6 +99,7 @@ public class ViewStream extends ActionBarActivity {
 
                             Intent intent = new Intent(mycontext, ViewStreamSingle.class);
                             intent.putExtra("message", streamNames.get(position));
+                            intent.putExtra("user", user_name);
                             startActivity(intent);
 
                         }
@@ -135,19 +150,21 @@ public class ViewStream extends ActionBarActivity {
             String pattern = text.getText().toString();
             System.out.println(pattern);
             intent.putExtra("message", pattern);
+            intent.putExtra("user", user_name);
             startActivity(intent);
         }
     }
 
-//    public void viewNearbyPhotos(View view) {
-//        Intent intent = new Intent(this, NearbyPhotos.class);
-//        intent.putExtra("indexes", "0_15");
-//        startActivity(intent);
-//    }
-//
-//    public void viewSubscribedStreams(View view) {
-//        Intent intent = new Intent(this, SubscribedStreams.class);
-//        String userName = getIntent().getStringExtra("userName");
-//        intent.putExtra("userName", userName);
-//    }
+    public void viewNearbyHandler(View view) {
+        Intent intent = new Intent(this, ViewNearby.class);
+        intent.putExtra("user", user_name);
+        intent.putExtra("indexes", "0_15");
+        startActivity(intent);
+    }
+
+    public void viewSubscribedStreams(View view) {
+        Intent intent = new Intent(this, ViewSubscribedStream.class);
+        intent.putExtra("user", user_name);
+        startActivity(intent);
+    }
 }

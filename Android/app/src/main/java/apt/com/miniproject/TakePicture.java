@@ -38,6 +38,7 @@ public class TakePicture extends ActionBarActivity implements
     private Button submitButton;
     private String streamName;
     private byte[] mImage;
+    private String user_name;
 
     byte[] image_data;
     private Bitmap m_bitmap;
@@ -51,6 +52,7 @@ public class TakePicture extends ActionBarActivity implements
 
         Bundle extras = getIntent().getExtras();
         streamName = extras.getString("stream_name");
+        user_name = extras.getString("user");
 
         mSurfaceView = (SurfaceView) findViewById(R.id.surface_camera);
         mImageView = (ImageView) findViewById(R.id.imageView);

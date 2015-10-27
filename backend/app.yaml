@@ -18,6 +18,18 @@ handlers:
 - url: /server
   static_dir: server
 
+#- url: /tt
+#  script: ViewHandler.app
+
+- url: /android/showmore.*
+  script: ViewHandler.app
+
+- url: /android/viewnearby.*
+  script: ViewHandler.app
+
+- url: /android/mobileviewsubscribed.*
+  script: ViewHandler.app
+
 - url: /android/searchresult.*
   script: ViewHandler.app
 

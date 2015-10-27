@@ -375,6 +375,8 @@ public class Homepage extends ActionBarActivity implements
 
     public void viewStream(View view){
         Intent intent= new Intent(this, ViewStream.class);
+        String user = email;
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 

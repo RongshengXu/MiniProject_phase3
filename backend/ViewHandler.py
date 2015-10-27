@@ -12,6 +12,7 @@ import json
 import re
 
 mobileshow = 0
+nearbyshow = 0
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -151,11 +152,129 @@ class MobileSearchResult(webapp2.RequestHandler):
         self.response.headers['Content-Type']="application/json"
         self.response.write(jsonObj)
 
+class MobileViewSubscribed(webapp2.RequestHandler):
+    def get(self):
+        user = re.findall("%3D%3D(.+)",self.request.url)[0]
+        streamcoverURLs = []
+        streamnames = []
+        name = []
+        streams = StreamModel.query().fetch()
+        for st in streams:
+            name = []
+            for n in st.subscribers:
+                name.append(n.lower())
+            if user.lower() in name:
+                streamcoverURLs.append(st.coverpageURL)
+                streamnames.append(st.name)
+        result = {"streamcoverurls":streamcoverURLs, 'streamnames':streamnames}
+        jsonObj=json.dumps(result, sort_keys=True,indent=4, separators=(',', ': '))
+        self.response.headers['Content-Type']="application/json"
+        self.response.write(jsonObj)
+
+class MobileViewNearby(webapp2.RequestHandler):
+    def get(self):
+        latitude = float(re.findall("%3D%3D(.+)%3D%3D%3D", self.request.url)[0])
+        longitude = float(re.findall("%3D%3D%3D(.+)", self.request.url)[0])
+        stream_query = StreamModel.query().fetch()
+        Imagesurl = []
+        Imagecap = []
+        streamnames = []
+        container = []
+        num = 0
+        global nearbyshow
+        nearbyshow = 0
+        for stream in stream_query:
+            picture_query = db.GqlQuery("SELECT *FROM PictureModel WHERE ANCESTOR IS :1 ORDER BY uploadDate DESC",
+                                      db.Key.from_path('StreamModel', str(stream.name)))
+            for picture in picture_query:
+                # la = float(picture.lat)
+                # lo = float(picture.lg)
+                dis = abs(pow((30.28226821-latitude),2.0)+pow((97.7393+longitude),2.0))
+                container.append((dis, picture, stream.name))
+        container.sort(key=lambda x:x[0])
+        for item in container:
+            if num < 8:
+                pic = item[1]
+                # parent = pic.getParent().get()
+                s = "http://sacred-highway-108321.appspot.com/android/getimage==" + item[2] + "===" + str(pic.id)
+                Imagesurl.append(s)
+                Imagecap.append(str(pic.id))
+                streamnames.append(item[2])
+                num += 1
+        # for pic in picture_query:
+        #     if (num < 8):
+        #         parent = pic.getParent().get()
+        #         s = "http://sacred-highway-108321.appspot.com/android/getimage==" + parent.name + "===" + str(pic.id)
+        #         Imagesurl.append(s)
+        #         Imagecap.append(str(pic.id))
+        #         streamnames.append(parent.name)
+        #         num += 1
+        result = {"imageurl":Imagesurl, 'imagecap':Imagecap, "streamnames": streamnames}
+        jsonObj=json.dumps(result, sort_keys=True,indent=4, separators=(',', ': '))
+        # self.response.write(container)
+        self.response.headers['Content-Type']="application/json"
+        self.response.write(jsonObj)
+
+class MobileShowMore(webapp2.RequestHandler):
+    def get(self):
+        latitude = float(re.findall("%3D%3D(.+)%3D%3D%3D", self.request.url)[0])
+        longitude = float(re.findall("%3D%3D%3D(.+)", self.request.url)[0])
+        stream_query = StreamModel.query().fetch()
+        Imagesurl = []
+        Imagecap = []
+        streamnames = []
+        container = []
+        num = 0
+        global nearbyshow
+        total = 0
+        for stream in stream_query:
+            picture_query = db.GqlQuery("SELECT *FROM PictureModel WHERE ANCESTOR IS :1 ORDER BY uploadDate DESC",
+                                      db.Key.from_path('StreamModel', str(stream.name)))
+            for picture in picture_query:
+                dis = abs(pow((30.28226821-latitude),2.0)+pow((97.7393+longitude),2.0))
+                container.append((dis, picture, stream.name))
+                total += 1
+        container.sort(key=lambda x:x[0])
+        if nearbyshow*8 <= total and (nearbyshow+1)*8 > total:
+            nearbyshow = 0
+        else:
+            nearbyshow += 1
+        for item in container:
+            if nearbyshow == 0 or (nearbyshow*8< num and (nearbyshow+1)*8 >= num):
+                pic = item[1]
+                # parent = pic.getParent().get()
+                s = "http://sacred-highway-108321.appspot.com/android/getimage==" + item[2] + "===" + str(pic.id)
+                Imagesurl.append(s)
+                Imagecap.append(str(pic.id))
+                streamnames.append(item[2])
+            num += 1
+        # for pic in picture_query:
+        #     if (num < 8):
+        #         parent = pic.getParent().get()
+        #         s = "http://sacred-highway-108321.appspot.com/android/getimage==" + parent.name + "===" + str(pic.id)
+        #         Imagesurl.append(s)
+        #         Imagecap.append(str(pic.id))
+        #         streamnames.append(parent.name)
+        #         num += 1
+        result = {"imageurl":Imagesurl, 'imagecap':Imagecap, "streamnames": streamnames}
+        jsonObj=json.dumps(result, sort_keys=True,indent=4, separators=(',', ': '))
+        # self.response.write(container)
+        self.response.headers['Content-Type']="application/json"
+        self.response.write(jsonObj)
+
+class tt(webapp2.RequestHandler):
+    def get(self):
+        self.redirect('/android/mobileviewsubscribed==xurongsheng2010')
+
 app = webapp2.WSGIApplication([
     ('/view', View),
     ('/android/mobileview', MobileView),
     ('/android/mobileviewsingle.*', MoboileViewSingle),
     ('/android/getimage.*', MobileGetImage),
     ('/android/upload', MobileUpload),
-    ('/android/searchresult.*', MobileSearchResult)
+    ('/android/searchresult.*', MobileSearchResult),
+    ('/android/mobileviewsubscribed.*', MobileViewSubscribed),
+    ('/android/viewnearby.*', MobileViewNearby),
+    ('/android/showmore.*', MobileShowMore),
+    ('/tt', tt)
 ], debug=True)

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/response_scroll"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical"
+    tools:context="apt.com.miniproject.ViewNearby"
+    android:fillViewport="false">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="apt.com.miniproject.ViewStreamSingle">
+
+        <TextView
+            android:text="@string/welcome"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:paddingBottom = "40sp"
+            />
+
+        <!--android:text="@string/status_signed_out" />-->
+
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="90dp"
+            android:numColumns="4"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/viewNearby_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:textSize="20sp"
+                android:paddingBottom = "20sp"
+                android:text="@string/ViewNearby"
+                />
+
+            <Button
+                android:id="@+id/show_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/showmoreActivity"
+                android:onClick="showMore"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/view_all_streams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/imagePage"
+            android:onClick="viewStream"
+            />
+
+    </LinearLayout>
+</ScrollView>

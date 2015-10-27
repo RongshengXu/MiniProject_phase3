@@ -1,17 +1,13 @@
 package apt.com.miniproject;
 
-/**
- * Created by rongshengxu on 10/24/15.
- */
 import android.app.Dialog;
 import android.content.Context;
-
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-//import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBarActivity;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -37,12 +31,48 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Created by rongshengxu on 10/24/15.
+ */
+        import android.app.Dialog;
+        import android.content.Context;
 
-import org.json.*;
-import com.loopj.android.http.*;
+        import android.content.Intent;
+        import android.os.Bundle;
+//import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.app.ActionBarActivity;
+        import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+        import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+        import android.util.Log;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.view.Window;
+        import android.widget.AdapterView;
+        import android.widget.Button;
+        import android.widget.GridView;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
+
+        import com.google.android.gms.plus.Plus;
+        import com.google.android.gms.plus.model.people.Person;
+        import com.loopj.android.http.AsyncHttpClient;
+        import com.loopj.android.http.AsyncHttpResponseHandler;
+        import com.squareup.picasso.Picasso;
+
+        import org.apache.http.Header;
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
+
+        import java.util.ArrayList;
 
 
-public class ViewStreamSingle extends ActionBarActivity {
+        import org.json.*;
+        import com.loopj.android.http.*;
+
+public class ViewNearby extends ActionBarActivity {
 
     Context context = this;
     private String TAG  = "Display Single Stream";
@@ -50,36 +80,48 @@ public class ViewStreamSingle extends ActionBarActivity {
     private TextView stname;
     private String message;
     private String user_name;
+    double latitude;
+    double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_stream_single);
+        setContentView(R.layout.activity_view_nearby);
         Bundle bundle = getIntent().getExtras();
-        message = bundle.getString("message");
         user_name = bundle.getString("user");
-        System.out.println("Stream is " + message);
         System.out.println("User is " + user_name);
+        mycontext = this;
 
-        stname = (TextView) findViewById(R.id.name);
-        stname.setText("View stream: " + message);
+        LocationManager location_manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener location_listener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
 
-        Button uploadButton = (Button) findViewById(R.id.open_image_upload_page);
-        uploadButton.setClickable(true);
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
 
-        uploadButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, ImageUpload.class);
-                        intent.putExtra("message", message);
-                        intent.putExtra("user", user_name);
-                        startActivity(intent);
-                    }
-                }
-        );
+            }
 
-        final String request_url = "http://sacred-highway-108321.appspot.com/android/mobileviewsingle=="+ message;
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, (float) 0.1, location_listener);
+
+
+        String la = String.valueOf(latitude);
+        String lo = String.valueOf(longitude);
+        final String request_url = "http://sacred-highway-108321.appspot.com/android/viewnearby=="+la+"==="+lo;
 //        final String request_url = "http://aptandroiddemo.appspot.com/viewAllPhotos";
 
         AsyncHttpClient httpClient = new AsyncHttpClient();
@@ -91,7 +133,7 @@ public class ViewStreamSingle extends ActionBarActivity {
                 try {
                     JSONObject jObject = new JSONObject(new String(response));
                     JSONArray displayImages = jObject.getJSONArray("imageurl");
-                    JSONArray displayCaption = jObject.getJSONArray("imagecap");
+                    final JSONArray displayCaption = jObject.getJSONArray("streamnames");
 //                    JSONArray displayImages = jObject.getJSONArray("displayImages");
 //                    JSONArray displayCaption = jObject.getJSONArray("imageCaptionList");
                     System.out.println(new String(response));
@@ -109,16 +151,10 @@ public class ViewStreamSingle extends ActionBarActivity {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
 
-                            Toast.makeText(context, imageCaps.get(position), Toast.LENGTH_SHORT).show();
-
-                            Dialog imageDialog = new Dialog(context);
-                            imageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            imageDialog.setContentView(R.layout.thumbnail);
-                            ImageView image = (ImageView) imageDialog.findViewById(R.id.thumbnail_IMAGEVIEW);
-
-                            Picasso.with(context).load(imageURLs.get(position)).into(image);
-
-                            imageDialog.show();
+                            Intent intent = new Intent(mycontext, ViewStreamSingle.class);
+                            intent.putExtra("message", imageCaps.get(position));
+                            intent.putExtra("user", user_name);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -162,10 +198,11 @@ public class ViewStreamSingle extends ActionBarActivity {
     }
 
     public void showMore(View view) {
-        Intent intent = new Intent(this, ViewStreamSingle.class);
-        intent.putExtra("message", message);
+        Intent intent = new Intent(this, ShowMore.class);
+//        intent.putExtra("message", message);
         intent.putExtra("user", user_name);
         startActivity(intent);
     }
 
 }
+

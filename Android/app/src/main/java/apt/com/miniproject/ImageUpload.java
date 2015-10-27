@@ -47,6 +47,7 @@ public class ImageUpload extends ActionBarActivity {
 
     Context context = this;
     private String message;
+    private String user_name;
 
     double latitude;
     double longitude;
@@ -57,9 +58,13 @@ public class ImageUpload extends ActionBarActivity {
         setContentView(R.layout.activity_image_upload);
         Bundle bundle = getIntent().getExtras();
         message = bundle.getString("message");
+        user_name = bundle.getString("user");
 
         final TextView lat_val = (TextView) findViewById(R.id.lat_value);
         final TextView lon_val = (TextView) findViewById(R.id.lon_value);
+        final TextView stream_name = (TextView) findViewById(R.id.stream_name);
+
+        stream_name.setText("Stream: "+ message);
 
         LocationManager location_manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener location_listener = new LocationListener() {
@@ -244,6 +249,7 @@ public class ImageUpload extends ActionBarActivity {
                     // go back to single stream view
                     Intent intent= new Intent(context, ViewStreamSingle.class);
                     intent.putExtra("message", stream_name);
+                    intent.putExtra("user", user_name);
                     startActivity(intent);
                 }
 
@@ -328,13 +334,15 @@ public class ImageUpload extends ActionBarActivity {
     }
 
     public void viewStream(View view){
-        Intent intent= new Intent(this, ViewStream.class);
+        Intent intent= new Intent(context, ViewStream.class);
+        intent.putExtra("user", user_name);
         startActivity(intent);
     }
 
     public void cameraWithPreview(View view){
-        Intent intent= new Intent(this, TakePicture.class);
+        Intent intent= new Intent(context, TakePicture.class);
         intent.putExtra("stream_name", message);
+        intent.putExtra("user", user_name);
         startActivity(intent);
     }
 }

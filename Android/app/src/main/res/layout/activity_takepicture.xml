@@ -13,7 +13,7 @@ android:fillViewport="false">
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context="com.aptPhase3.zhiyuan.android.TakePhotoActivity"
+        tools:context="apt.com.miniproject.TakePicture"
         android:orientation="vertical"
         android:weightSum="1">
 
