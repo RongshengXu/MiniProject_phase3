@@ -234,7 +234,6 @@ public class ImageUpload extends ActionBarActivity {
 
     private void uploadHandler(final byte[] encodedImage, final String stream_name) {
             AsyncHttpClient httpClient = new AsyncHttpClient();
-            String request_url= "http://sacred-highway-108321.appspot.com/android/";
             String upload_url = "http://sacred-highway-108321.appspot.com/android/upload";
             RequestParams params = new RequestParams();
             params.put("file",new ByteArrayInputStream(encodedImage));

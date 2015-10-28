@@ -89,6 +89,8 @@ public class TakePicture extends ActionBarActivity implements
             case R.id.submit_button:
                 Intent intent= new Intent(this, ImageUpload.class);
                 intent.putExtra("message", streamName);
+                intent.putExtra("user", user_name);
+                intent.putExtra("id", "camera");
                 intent.putExtra("data", image_data);
                 //startActivity(intent);
                 startActivityForResult(intent, TAKE_PICTURE);

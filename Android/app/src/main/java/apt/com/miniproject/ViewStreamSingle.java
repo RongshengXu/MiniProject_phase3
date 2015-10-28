@@ -74,6 +74,7 @@ public class ViewStreamSingle extends ActionBarActivity {
                         Intent intent = new Intent(context, ImageUpload.class);
                         intent.putExtra("message", message);
                         intent.putExtra("user", user_name);
+                        intent.putExtra("id", "single");
                         startActivity(intent);
                     }
                 }

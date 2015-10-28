@@ -15,9 +15,10 @@
     <string name="search">Search</string>
     <string name="subscribe_stream">My Subscribed Streams</string>
 
-    <string name="title_activity_display_images">DisplayImages</string>
-    <string name="title_activity_display_single_stream">DisplaySingleStream</string>
-    <string name="title_search_stream">SearchStream</string>
+    <string name="title_activity_display_images">Display Streams</string>
+    <string name="title_activity_display_single_stream">Display Single Stream</string>
+    <string name="title_search_stream">Search Stream</string>
+    <string name="title_activity_take_pictures">Take Pictures</string>
     <string name="imagePage">View All Streams</string>
     <string name="subscribedStream">View All Subscribed Streams</string>
     <string name="showmoreActivity"> Show More </string>
