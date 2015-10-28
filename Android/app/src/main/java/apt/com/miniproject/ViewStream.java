@@ -55,7 +55,7 @@ public class ViewStream extends ActionBarActivity {
         String temp = new String();
         if (!bundle.isEmpty()) {
             temp = bundle.getString("user");
-            if (temp.equals("")) {
+            if (temp==null ||temp.equals("")) {
                 System.out.println("empty user!");
             } else {
                 user_name = temp;
