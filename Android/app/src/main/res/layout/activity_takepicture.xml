@@ -39,11 +39,18 @@ android:fillViewport="false">
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Use this Picture"-->
+            <!--android:id="@+id/submit_button" />-->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Use this Picture"
-            android:id="@+id/submit_button" />
+            android:text="@string/uploadImage"
+            android:clickable="false"
+            android:id="@+id/upload_to_server"
+            />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -52,6 +59,7 @@ android:fillViewport="false">
             android:text="Take Photo"
             android:id="@+id/Take_Pic_Button"
             android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 
 </LinearLayout>
